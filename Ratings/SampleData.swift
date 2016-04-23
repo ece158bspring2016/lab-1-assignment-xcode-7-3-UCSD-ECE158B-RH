@@ -13,4 +13,5 @@ import Foundation
 let playersData = [
     Player(name:"Elijah Harvey",game:"Tic-Tac-Toe",rating:3),
     Player(name:"Lizzy Harvey",game:"Dominoes",rating:5),
-    Player(name:"Ethan Harvey",game:"Texas Hold 'em Poker",rating:1)]
+    Player(name:"Ethan Harvey",game:"Texas Hold 'em Poker",rating:1),
+    Player(name:"Ezekiel Harvey",game:"Checkers",rating:4)]

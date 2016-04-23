@@ -110,4 +110,5 @@ class PlayersViewController: UITableViewController {
         let imageName = "\(rating)Stars"
         return UIImage(named:imageName)
     }
+    
 }
