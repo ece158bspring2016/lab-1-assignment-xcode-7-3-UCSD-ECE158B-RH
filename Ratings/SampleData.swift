@@ -2,9 +2,9 @@
 //  SampleData.swift
 //  Ratings
 //
-//  Created by Kenneth Harvey on 4/22/16.
+//  Created by Richard Harvey on 4/22/16.
 //  Copyright © 2016 Richard Harvey. All rights reserved.
-//
+//  Adpated from tutorial by: Caroline Begbie
 
 import Foundation
 

@@ -1,5 +1,5 @@
 //
-//  PlayersViewController.swift
+//  PlayerDetailsViewController.swift
 //  Ratings
 //
 //  Created by Richard Harvey on 4/22/16.
@@ -8,10 +8,45 @@
 
 import UIKit
 
-class PlayersViewController: UITableViewController {
+class PlayerDetailsViewController: UITableViewController {
     
-    var players:[Player] = playersData
+    var game:String = "Chess" {
+        didSet {
+            detailLabel.text? = game
+        }
+    }
+    
+    var player:Player?
 
+    @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    
+    @IBAction func unwindWithSelectedGame(segue:UIStoryboardSegue) {
+        if let gamePickerViewController = segue.sourceViewController as? GamePickerViewController, selectedGame = gamePickerViewController.selectedGame {
+            game = selectedGame
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        print("init PlayerDetailsViewController")
+        super.init(coder: aDecoder)
+    }
+    
+    deinit {
+        print("deinit PlayerDetailsViewController")
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "SavePlayerDetail" {
+            player = Player(name: nameTextField.text!, game: game, rating: 1)
+        }
+        if segue.identifier == "PickGame" {
+            if let gamePickerViewController = segue.destinationViewController as? GamePickerViewController {
+                gamePickerViewController.selectedGame = game
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,40 +61,36 @@ class PlayersViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 {
+            nameTextField.becomeFirstResponder()
+        }
+    }
 
     // MARK: - Table view data source
 
+    /*
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return players.count
+        return 0
     }
+    */
 
-    
+    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PlayerCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
 
         // Configure the cell...
-        let player = players[indexPath.row] as Player
-        
-        if let nameLabel = cell.viewWithTag(100) as? UILabel {
-            nameLabel.text = player.name
-        }
-        if let gameLabel = cell.viewWithTag(101) as? UILabel {
-            gameLabel.text = player.game
-        }
-        if let ratingImageView = cell.viewWithTag(102) as? UIImageView {
-            ratingImageView.image = self.imageForRating(player.rating)
-        }
-        //cell.textLabel?.text = player.name
-        //cell.detailTextLabel?.text = player.game
+
         return cell
     }
- 
+    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -105,28 +136,5 @@ class PlayersViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    func imageForRating(rating:Int) -> UIImage? {
-        let imageName = "\(rating)Stars"
-        return UIImage(named:imageName)
-    }
-    
-    @IBAction func cancelToPlayersViewController(segue:UIStoryboardSegue) {
-    }
-    
-    @IBAction func savePlayerDetail(segue:UIStoryboardSegue) {
-        if let PlayerDetailsViewController = segue.sourceViewController as? PlayerDetailsViewController {
-            
-            //add the new player to the players array
-            if let player = PlayerDetailsViewController.player {
-                players.append(player)
-                
-                //update the tableView
-                let indexPath = NSIndexPath(forRow: players.count-1, inSection: 0)
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-        }
-        
-    }
-    
+
 }
